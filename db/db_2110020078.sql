@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 27, 2024 at 01:06 PM
+-- Generation Time: Jun 12, 2024 at 12:47 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -30,17 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `mahasiswa` (
   `id_mahasiswa` int NOT NULL,
   `NIM` varchar(15) NOT NULL,
-  `nama_mhs` varchar(255) NOT NULL
+  `nama_mhs` varchar(255) NOT NULL,
+  `id_prodi` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`id_mahasiswa`, `NIM`, `nama_mhs`) VALUES
-(1, '2110020002', 'Bagus Udin Prokoso'),
-(2, '2110020003', 'Siti Zubaedah Putra Ahmad'),
-(3, '2110020004', 'Budi Setiawan Nasution');
+INSERT INTO `mahasiswa` (`id_mahasiswa`, `NIM`, `nama_mhs`, `id_prodi`) VALUES
+(1, '2110020002', 'Bagus Udin Prokoso', 1),
+(2, '2110020003', 'Siti Zubaedah Putra Ahmad', 1),
+(3, '2110020004', 'Budi Setiawan Nasution', 2),
+(6, '2110020078', 'Ahmad Rosyad', 2);
 
 -- --------------------------------------------------------
 
@@ -59,9 +61,8 @@ CREATE TABLE `prodi` (
 --
 
 INSERT INTO `prodi` (`id_prodi`, `kode_prodi`, `nama_prodi`) VALUES
-(2, 'FTI', 'Fakultas Teknologi Informasi'),
-(3, 'FKM', 'Fakultas Kesehatan Masyarakat'),
-(4, 'FSI', 'Fakultas Studi Islam');
+(1, '1001', 'Teknologi Informatika'),
+(2, '1002', 'Sistem Informasi');
 
 --
 -- Indexes for dumped tables
@@ -71,7 +72,8 @@ INSERT INTO `prodi` (`id_prodi`, `kode_prodi`, `nama_prodi`) VALUES
 -- Indexes for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  ADD PRIMARY KEY (`id_mahasiswa`);
+  ADD PRIMARY KEY (`id_mahasiswa`),
+  ADD KEY `fk_prodi` (`id_prodi`);
 
 --
 -- Indexes for table `prodi`
@@ -87,13 +89,23 @@ ALTER TABLE `prodi`
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mahasiswa` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_mahasiswa` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `prodi`
 --
 ALTER TABLE `prodi`
   MODIFY `id_prodi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `mahasiswa`
+--
+ALTER TABLE `mahasiswa`
+  ADD CONSTRAINT `fk_prodi` FOREIGN KEY (`id_prodi`) REFERENCES `prodi` (`id_prodi`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
